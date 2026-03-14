@@ -177,15 +177,95 @@ window.addEventListener('contextmenu', function (e) {
   //}
 }, false);
 
-/*
-if (url.match('rainmeter') != null){
-    alert('ABC');
-    url = url.replace('https', 'yurl').replace('&rainmeter', '');
-    window.open(e.target.parentNode.parentNode.href.replace('https', 'yurl'))
-    
-    ///url = url.replace('https://www.youtube.com/watch\?v=', 'https://www.youtube.com/embed/');
-    ///window.open(url.replace('&rainmeter', '?autoplay=1'),'YoutubepopUpWindow','height=253,width=450,left=1470,top=50,resizable=no,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no ');
-    ///window.close();
-    //setTimeout(function(){window.close(); }, 500);
-    
+function isEnglishAndSymbols(text) {
+    // 正則表達式：只允許英文字母（大小寫）、數字及常見符號
+    const regex = /^[A-Za-z0-9\s!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
+    return regex.test(text);
 }
+
+window.addEventListener('mousedown', function (e) {
+    //e.preventDefault();
+    //e.stopPropagation();
+    //e.stopImmediatePropagation();
+    //alert(e.button);
+    //console.log('ABCD');
+    //console.log(e.button);
+    if (url.match('watch?v') == null){
+
+        if (e.button == 1){
+            console.log(e.target.tagName);
+            //console.log(e.target.offsetWidth)
+            //console.log(e.target.offsetHeight)
+            let fi = e.target.tagName
+            if (fi == 'VIDEO'){
+                //console.log(e.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('aria-label'))
+                var fname = (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.getAttribute('aria-label'))//.match('：(.+?)：')[1]
+                console.log(fname)
+                var fj = e.target.parentNode.parentNode.getElementsByClassName('ytp-title-link')
+                //console.log(fj[0])
+                //console.log(isEnglishAndSymbols(fj[0].text))
+                if (e.target.offsetWidth > e.target.offsetHeight){
+                   window.open(fj[0].href,'Youtube_Window','height=900,width=1100,left=285,top=25,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no ');
+                }
+                else{
+                    window.open(fj[0].href.replace('watch?v=','shorts/'),'Youtube_Window','height=900,width=1100,left=285,top=25,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no ');
+                }
+                //fj[0].removeAttribute("href");
+                e.preventDefault();
+                /*
+                if (isEnglishAndSymbols(fj[0].text) == true){
+                    if (e.target.offsetWidth > e.target.offsetHeight){
+                       window.open(fj[0].href,'Youtube_Window','height=900,width=1100,left=285,top=25,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no ');
+                    }
+                    else{
+                        window.open(fj[0].href.replace('watch?v=','shorts/'),'Youtube_Window','height=900,width=1100,left=285,top=25,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no ');
+                    }
+                    //fj[0].removeAttribute("href");
+                    e.preventDefault();
+                }
+                else{
+                }
+                //console.log(fj[0].href)
+                */
+            }
+            else if (fi == 'YT-FORMATTED-STRING'){
+                //console.log(e.target.parentNode.parentNode.outerHTML)
+                var fj = e.target.parentNode.parentNode.getElementsByTagName('a')
+                //console.log(isEnglishAndSymbols(fj[0].text))
+                //fj[0].removeAttribute("href");
+                //console.log(fj[0])
+                if (e.target.offsetWidth > e.target.offsetHeight){
+                    window.open(fj[0].href,'Youtube_Window','height=900,width=1100,left=285,top=25,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no ');
+                }
+                else{
+                    window.open(fj[0].href.replace('watch?v=','shorts/'),'Youtube_Window','height=900,width=1100,left=285,top=25,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no ');
+                }
+                //fj[0].removeAttribute("href");
+                //console.log(e)
+                //fj[0].preventDefault();
+                e.target.parentNode.parentNode.preventDefault();
+                e.preventDefault();
+
+            }
+            else if (fi == 'IMG'){
+                //console.log(e.target.parentNode.parentNode.outerHTML);
+                let fi = e.target.parentNode.parentNode.tagName
+                //console.log(fi)
+                if (fi == 'A'){
+                    //console.log(e.target.parentNode.parentNode.href)
+                    e.preventDefault();
+                    if (e.target.offsetWidth > e.target.offsetHeight){
+                        window.open(e.target.parentNode.parentNode.href,'Youtube_Window','height=900,width=1100,left=285,top=25,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no ');
+                    }
+                    else{
+                        window.open(e.target.parentNode.parentNode.href.replace('watch?v=','shorts/'),'Youtube_Window','height=900,width=1100,left=285,top=25,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no ');
+                    }
+                }
+                else if (fi == 'YT-THUMBNAIL-VIEW-MODEL'){
+                    //console.log(e.target.parentNode.parentNode.parentNode.href)
+                    window.open(e.target.parentNode.parentNode.parentNode.href,'Youtube_Window','height=900,width=1100,left=285,top=25,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no ');
+                }
+            }
+        }
+    }
+});
